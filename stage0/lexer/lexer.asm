@@ -1,4 +1,4 @@
-; Callisto Stage-0 — Lexer
+; AGC-Lang Stage-0 — Lexer
 ; mission : Kaynak kodu okuyup tokenlara ayir
 global _start:
 ; tokenen tipleri
@@ -49,21 +49,100 @@ cal_next_token:
     .skip_whites:
         movzx eax, byte [rsi] ; giris al.  eax kullandim cunki rax bir alti 32 byte
 
-        cmp al, 0x0A
+        cmp al, 0x0A ; yeni satir olup
         je .advance
 
-        cmp al, 0x09
+        cmp al, 0x09 ; tab olup olmadigini kontrol et 
         je .advance
 
-        cmp al, 0x20
+        cmp al, 0x20 ; space olup olmadigini kontrol et 
         je .advance
 
         jmp .done
 
 
     .advance:
-        
+        inc [rsi]
+        jmp .skip_whites ; kodun tekrar etmesi icin bir ileri gidip yine kontrol etme mekanigi
       
     .done:
         ;blank
+    .eof_control:
+        movzx eax, byte [rsi] ; ayni yukarida bahsettim
+        cmp al, 0
+        jne .classify
+
+        ;EOF
+        movzx byte [rdi], 0
+        mov rax, 0
+        jmp .classify
+
+    .classify:
+        ; mantik basic bakicaz tokenmi harfmi
+        movzx eax, byte [rsi]
+        ; not tutcam bi dk. jl- lower jg-buyuk
+        ; bu arada 0x61-a 0x7A-z
+        cmp al, 0x61
+        jl .degil
+
+        cmp al, 0x7A
+        jg .degil
+
+        jmp .identifier
+
+    .check_digit:
+        ; not rakamlar 0x30 0x39
+
+        movzx eax, byte [rsi]
+
+        cmp al, 0x30
+        jl .degil 
+
+        cmp al 0x39
+        jg .degil
+
+        jmp .number 
+
+    .check_upper:
+        movzx eax, byte [rsi]
+
+        cmp al, 0x41
+        jl .degil
+
+        cmp al, 0x5A
+        jg .degil
+
+        jmp .identifier
+
+    .check_symbol:
+        ; !"()*+,-/:;{}
+        movzx eax, byte [rsi]
+
+        cmp al, 0x21
+        jl .degil
+
+        cmp al, 0x2F
+        jg .degil
+
+        cmp al, 0x3A
+        jl .degil
+
+        cmp al, 0x3E
+        jg .degil
+
+        cmp al, 0x7B
+        jl .degil
+
+        cmp al, 0x7D
+        jg .degil
+
+        jmp .symbol
+
+    .identifier:
+        ; yazilcak
+    .number:
+        ;yazilcak
+    .symbol:
+        ;yazilcak
+        
     ret

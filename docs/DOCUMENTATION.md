@@ -1,4 +1,4 @@
-# Callisto Language Documentation
+# AGC Language Documentation
 
 > Low-level programming language bootstrapped from raw x86-64 assembly.  
 > No runtime. No compromise.
@@ -7,7 +7,7 @@
 
 ## Table of Contents
 
-1. [What is Callisto](#1-what-is-callisto)
+1. [What is AGC](#1-what-is-agc)
 2. [Design Philosophy](#2-design-philosophy)
 3. [Getting Started](#3-getting-started)
 4. [Syntax](#4-syntax)
@@ -24,13 +24,13 @@
 
 ---
 
-## 1. What is Callisto
+## 1. What is AGC
 
-Callisto is a systems programming language designed for one purpose: **direct hardware control with zero overhead**.
+AGC is a systems programming language designed for one purpose: **direct hardware control with zero overhead**.
 
 It is not trying to replace Python. It is not trying to replace JavaScript. It exists in the space where C lives — kernels, drivers, firmware, embedded systems, real-time applications — and tries to do that job better.
 
-**What makes Callisto different:**
+**What makes AGC different:**
 
 - Bootstrapped from pure x86-64 assembly — no C dependency anywhere
 - Zero runtime: no garbage collector, no scheduler, no hidden allocations
@@ -572,7 +572,7 @@ fn unlock(s: ptr Spinlock) {
 
 ## 9. Error Handling
 
-Callisto error handling is based on `drift` and `align`. There are no exceptions, no exception tables, no runtime overhead. A `drift` compiles to a conditional branch. On the non-error path the cost is zero.
+AGC error handling is based on `drift` and `align`. There are no exceptions, no exception tables, no runtime overhead. A `drift` compiles to a conditional branch. On the non-error path the cost is zero.
 
 All drifts declared in a function signature must be caught by the caller. Uncaught drifts are a compile error.
 
@@ -777,7 +777,7 @@ Source (.cal)
 
 ### 12.2 TRACE Mode
 
-Every Callisto statement can emit annotated assembly output. No external debugger needed for low-level analysis.
+Every AGC statement can emit annotated assembly output. No external debugger needed for low-level analysis.
 
 ```bash
 cal build --trace program.cal
@@ -811,11 +811,11 @@ cal build main.cal -o kernel.elf \
 
 ## 13. Bootstrap Process
 
-Callisto builds itself from scratch with no external language dependency.
+AGC builds itself from scratch with no external language dependency.
 
 ### Stage-0 — Pure Assembly
 
-Written in approximately 3000 lines of x86-64 NASM assembly. Understands only the minimal Callisto subset needed to compile Stage-1. Produces ELF object files.
+Written in approximately 3000 lines of x86-64 NASM assembly. Understands only the minimal AGC subset needed to compile Stage-1. Produces ELF object files.
 
 ```bash
 # Build Stage-0 (only NASM required)
@@ -891,4 +891,4 @@ See [LICENSE](../LICENSE) for full terms.
 
 ---
 
-*Callisto — ASM'den filizlenir, kernele uzanır.*
+*AGC — ASM'den filizlenir, kernele uzanır.*
