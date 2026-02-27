@@ -1,6 +1,5 @@
-; AGC-Lang Stage-0 — Lexer
-; mission : Kaynak kodu okuyup tokenlara ayir
-global _start:
+; AGC-Lang Lexer
+global cal_next_token
 ; tokenen tipleri
 TOK_EOF     equ 0   ; dosya sonu
 TOK_IDENT   equ 1   ; identifier: fn, let, add, x vesair
@@ -26,10 +25,6 @@ TOK_KW_ASM  equ 20  ; asm
 TOK_KW_EXT  equ 21  ; extern
 TOK_KW_PACK equ 22  ; pack
 
-; Token struct layout (24 byte):
-;   +0  u8   kind
-;   +8  ptr  start
-;   +16 u64  len
 
 struc Token
     .kind:  resb 1
@@ -40,11 +35,6 @@ endstruc
 
 section .text
 
-; cal_next_token
-; giris:  RSI = kaynak buffer pointer not :mevcut pozisyon
-;         RDI = Token struct pointer not : sonuc buraya yazilcak
-; cikis:  RAX = token tipi
-;         RSI = yeni pozisyon not:token sonrasi bu
 cal_next_token:
     .skip_whites:
         movzx eax, byte [rsi] ; giris al.  eax kullandim cunki rax bir alti 32 byte
@@ -62,7 +52,7 @@ cal_next_token:
 
 
     .advance:
-        inc [rsi]
+        inc rsi
         jmp .skip_whites ; kodun tekrar etmesi icin bir ileri gidip yine kontrol etme mekanigi
       
     .done:
@@ -73,76 +63,64 @@ cal_next_token:
         jne .classify
 
         ;EOF
-        movzx byte [rdi], 0
+        mov byte [rdi], 0
         mov rax, 0
         jmp .classify
 
     .classify:
-        ; mantik basic bakicaz tokenmi harfmi
         movzx eax, byte [rsi]
-        ; not tutcam bi dk. jl- lower jg-buyuk
-        ; bu arada 0x61-a 0x7A-z
         cmp al, 0x61
-        jl .degil
-
+        jl  .not_lower
         cmp al, 0x7A
-        jg .degil
-
-        jmp .identifier
-
-    .check_digit:
-        ; not rakamlar 0x30 0x39
-
-        movzx eax, byte [rsi]
+        jle .identifier
+    .not_lower:
+        cmp al, 0x41
+        jl  .not_upper
+        cmp al, 0x5A
+        jle .identifier
+    .not_upper:
+        cmp al, 0x5F
+        je  .identifier
 
         cmp al, 0x30
-        jl .degil 
-
-        cmp al 0x39
-        jg .degil
-
-        jmp .number 
-
-    .check_upper:
+        jl  .not_digit
+        cmp al, 0x39
+        jle .number
+    .not_digit:
+        jmp .symbol
+    .identifier:
         movzx eax, byte [rsi]
-
+        
         cmp al, 0x41
-        jl .degil
+        jl .not_upper
+        .not_upper:
+            cmp al, 0x5F
+            je  .identifier
 
+            cmp al, 0x30
+            jl  .not_digit
+            cmp al, 0x39
+            jle .number
+        .not_digit:
+            jmp .symbol
         cmp al, 0x5A
-        jg .degil
+        jle .identifier_contuine
+        cmp al, 0x5F
+        je .identifier_contuine ;harf
+        cmp al, 0x61
+        jl .bitti
+        cmp al, 0x7A
+        jle .identifier_contuine
+        cmp al, 0x30
+        jl .bitti
+        cmp al, 0x39
+        jg .bitti
+
+        jmp .identifier_contuine ;harf
+    .identifier_contuine:
+        inc rsi
+        inc rcx
 
         jmp .identifier
 
-    .check_symbol:
-        ; !"()*+,-/:;{}
-        movzx eax, byte [rsi]
 
-        cmp al, 0x21
-        jl .degil
-
-        cmp al, 0x2F
-        jg .degil
-
-        cmp al, 0x3A
-        jl .degil
-
-        cmp al, 0x3E
-        jg .degil
-
-        cmp al, 0x7B
-        jl .degil
-
-        cmp al, 0x7D
-        jg .degil
-
-        jmp .symbol
-
-    .identifier:
-        ; yazilcak
-    .number:
-        ;yazilcak
-    .symbol:
-        ;yazilcak
-        
-    ret
