@@ -1,4 +1,4 @@
-; Callisto Stage-0 — Lexer
+; AGC Stage-0 — Lexer
 ; mission : Kaynak kodu okuyup tokenlara ayir
 global _start:
 ; tokenen tipleri
@@ -46,24 +46,10 @@ section .text
 ; cikis:  RAX = token tipi
 ;         RSI = yeni pozisyon not:token sonrasi bu
 cal_next_token:
-    .skip_whites:
-        movzx eax, byte [rsi] ; giris al.  eax kullandim cunki rax bir alti 32 byte
-
-        cmp al, 0x0A
-        je .advance
-
-        cmp al, 0x09
-        je .advance
-
-        cmp al, 0x20
-        je .advance
-
-        jmp .done
-
-
-    .advance:
-        
-      
-    .done:
-        ;blank
+    ; TODO: whitespace atla
+    ; TODO: EOF kontrol et
+    ; TODO: karakteri classify et
+    ;       - harf ise: identifier veya keyword
+    ;       - rakam ise: number
+    ;       - sembol ise: operator
     ret
