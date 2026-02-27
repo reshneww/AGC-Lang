@@ -36,7 +36,7 @@ endstruc
 section .text
 
 cal_next_token:
-    .skip_whites:
+ .skip_whites:
         movzx eax, byte [rsi] ; giris al.  eax kullandim cunki rax bir alti 32 byte
 
         cmp al, 0x0A ; yeni satir olup
@@ -88,35 +88,31 @@ cal_next_token:
         jle .number
     .not_digit:
         jmp .symbol
+        
     .identifier:
         movzx eax, byte [rsi]
         
         cmp al, 0x41
-        jl .not_upper
-        .not_upper:
-            cmp al, 0x5F
-            je  .identifier
-
-            cmp al, 0x30
-            jl  .not_digit
-            cmp al, 0x39
-            jle .number
-        .not_digit:
-            jmp .symbol
+        jl .number_check
         cmp al, 0x5A
-        jle .identifier_contuine
-        cmp al, 0x5F
-        je .identifier_contuine ;harf
-        cmp al, 0x61
-        jl .bitti
-        cmp al, 0x7A
-        jle .identifier_contuine
-        cmp al, 0x30
-        jl .bitti
-        cmp al, 0x39
-        jg .bitti
-
-        jmp .identifier_contuine ;harf
+        jg .not_upper2
+        jmp .identifier_contuine
+        .number_check:
+            cmp al, 0x30
+            jl .bitti
+            cmp al, 0x39
+            jg .bitti
+            jmp .identifier_contuine
+        .not_upper2:
+            cmp al, 0x5F
+            jne .not_underline
+            jmp .identifier_contuine
+            .not_underline:
+                cmp al, 0x61
+                jl .bitti
+                cmp al, 0x7A
+                jg .bitti
+                jmp .identifier_contuine
     .identifier_contuine:
         inc rsi
         inc rcx
