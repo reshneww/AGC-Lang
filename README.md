@@ -1,4 +1,4 @@
-# Callisto
+# AGC Lang
 
 ASM-first, zero runtime, Linux kernel ready system programming language.
 
