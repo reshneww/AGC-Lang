@@ -92,6 +92,9 @@ cal_next_token:
     .identifier:
         movzx eax, byte [rsi]
         
+        mov r8, rsi
+        mov r11, 0
+
         cmp al, 0x41
         jl .number_check
         cmp al, 0x5A
@@ -115,7 +118,7 @@ cal_next_token:
                 jmp .identifier_contuine
     .identifier_contuine:
         inc rsi
-        inc rcx
+        inc r11
 
         jmp .identifier
 

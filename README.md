@@ -6,7 +6,7 @@ ASM-first, zero runtime, Linux kernel ready system programming language.
 
 ## Status
 - [ ] Stage-0 (NASM bootstrap compiler)
-- [ ] Stage-1 (Callisto compiler written in Callisto)
+- [ ] Stage-1 (AGC compiler written in AGC)
 - [ ] Self-hosting
 
 ## Build
@@ -14,11 +14,11 @@ ASM-first, zero runtime, Linux kernel ready system programming language.
 ```bash
 # Stage-0 derle (sadece NASM gerekli)
 cd stage0
-nasm -f elf64 main.asm -o cal0.o
-ld -o cal0 cal0.o
+nasm -f elf64 main.asm -o agc0.o
+ld -o agc0 agc0.o
 
 # Test
-./cal0 tests/stage0/hello.cal -o hello
+./agc0 tests/stage0/hello.agc -o hello
 ./hello
 ```
 
@@ -26,7 +26,7 @@ ld -o cal0 cal0.o
 
 ```
 stage0/   — NASM ile yazılmış bootstrap derleyici
-stage1/   — Callisto ile yazılmış tam derleyici
+stage1/   — AGC ile yazılmış tam derleyici
 spec/     — Dil spesifikasyonu
 tests/    — Test dosyaları
 tools/    — Yardımcı araçlar
