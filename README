@@ -1,38 +1,37 @@
 AGC-LANG SYSTEM LANGUAGE
 ========================
 
-AGC-LANG IS A SYSTEM PROGRAMMING LANGUAGE DESIGNED FOR KERNEL DEVELOPMENT WITH NATIVE EXECUTION CONTEXT SAFETY. IT ELIMINATES CLASSES OF KERNEL PANICS BY VERIFYING CONTEXT CONSTRAINTS AT COMPILE-TIME.
+AGC-LANG is a system programming language aimed at kernel development with built-in execution context safety. It prevents types of kernel crashes by checking context rules during compile time.
 
 Quick start
 -----------
 
-REPORT A BUG: SEE AGC-LANG V1.0 SPECIFICATION.
-GET THE LATEST SOURCE: STAGE-0 X86-64 NASM BOOTSTRAP.
-BUILD THE COMPILER: SEE STAGE-1 SELF-HOSTING DOCUMENTATION.
-JOIN THE COMMUNITY: ASM-FIRST DEVELOPMENT FOR SILICON-LEVEL CONTROL.
+Report a bug: See AGC-LANG V1.0 specification.  
+Get the latest source: Stage-0 x86-64 NASM bootstrap.  
+Build the compiler: See Stage-1 self-hosting documentation.  
+Join the community: ASM-first development for silicon-level control.
 
 ESSENTIAL DOCUMENTATION
 -----------------------
 
-ALL USERS SHOULD BE FAMILIAR WITH:
+All users should be familiar with:
 
-BUILDING REQUIREMENTS: STAGE-0 NASM, MINIMAL ELF GENERATOR.
-CONTEXT HIERARCHY: UNDERSTANDING IRQ_CTX, ATOMIC_CTX, AND PROCESS_CTX.
-MEMORY SAFETY: UTILIZING BOND ALIASING ANALYSIS AND PULSE LEXICAL BLOCKS.
-HARDWARE CONTROL: USING ZONE AND ANCHOR FOR MMIO AND DMA.
-ERROR HANDLING: IMPLEMENTING ZERO-COST DRIFT AND ALIGN MECHANISMS.
+Building requirements: Stage-0 NASM, minimal ELF generator.  
+Context hierarchy: Understanding IRQ_CTX, ATOMIC_CTX, and PROCESS_CTX.  
+Memory safety: Using bond aliasing analysis and pulse lexical blocks.  
+Hardware control: Using zone and anchor for MMIO and DMA.  
+Error handling: Implementing zero-cost drift and align mechanisms.  
 
-DOCUMENTATION IS BASED ON THE AGC-LANG V1.0 SPEC.
-
+Documentation is based on the AGC-LANG V1.0 spec.
 
 WHO ARE YOU?
 ============
 
-FIND YOUR ROLE BELOW:
+Find your role below:
 
-NEW KERNEL DEVELOPER - GETTING STARTED WITH COMPILE-TIME CONTEXT SAFETY.
-DRIVER ENGINEER - MANAGING HARDWARE REGISTERS VIA CORE BLOCKS AND REG BINDINGS.
-SYSTEM ARCHITECT - DESIGNING SELF-HOSTING TOOLCHAINS WITH ZERO EXTERNAL DEPENDENCIES.
-SECURITY EXPERT - HARDENING SYSTEMS THROUGH STATIC CFG AND BOND ANALYSIS.
-HARDWARE VENDOR - WRITING HIGH-PERFORMANCE DRIVERS VIA NAKED FUNCTIONS.
-MAINTAINER - ENFORCING CONTEXT PROPAGATION RULES AND CONSTRAINT MATRICES.
+New kernel developer - Getting started with compile-time context safety.  
+Driver engineer - Managing hardware registers via core blocks and reg bindings.  
+System architect - Designing self-hosting toolchains with zero external dependencies.  
+Security expert - Hardening systems through static CFG and bond analysis.  
+Hardware vendor - Writing high-performance drivers via naked functions.  
+Maintainer - Enforcing context propagation rules and constraint matrices.
